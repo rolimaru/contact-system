@@ -1,19 +1,27 @@
 <?php
+session_start();
 include "../db_conn.php";
 
-$query = isset($_POST['query']) ? $_POST['query'] : '';
-$user_id = $_SESSION['user_id']; // Ensure the user is logged in and user_id is set
+// Check if user is logged in
+if (!isset($_SESSION['user_id'])) {
+    echo "User not logged in.";
+    exit();
+}
 
+$user_id = $_SESSION['user_id'];
+$search_query = isset($_GET['search']) ? $_GET['search'] : '';
+
+// Prepare SQL statement to fetch only the contacts for the logged-in user with search filter
 $sql = "SELECT * FROM `contact` WHERE `user_id` = ? AND (
             `name` LIKE ? OR 
             `company` LIKE ? OR 
             `phone` LIKE ? OR 
             `email` LIKE ?
         )";
-$searchTerm = "%" . $query . "%";
 
 if ($stmt = mysqli_prepare($conn, $sql)) {
-    mysqli_stmt_bind_param($stmt, "issss", $user_id, $searchTerm, $searchTerm, $searchTerm, $searchTerm);
+    $search_term = "%$search_query%";
+    mysqli_stmt_bind_param($stmt, "issss", $user_id, $search_term, $search_term, $search_term, $search_term);
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
 
@@ -35,5 +43,8 @@ if ($stmt = mysqli_prepare($conn, $sql)) {
         echo '<tr><td colspan="5" class="text-center">No contacts found</td></tr>';
     }
     mysqli_stmt_close($stmt);
+} else {
+    echo "Error preparing query.";
 }
+
 mysqli_close($conn);

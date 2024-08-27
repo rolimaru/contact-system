@@ -56,19 +56,19 @@ if (isset($_POST['submit'])) {
         <form action="" method="POST">
             <div class="mb-3">
                 <label for="name" class="form-label">Name</label>
-                <input type="text" class="form-control" id="name" name="name" required>
+                <input type="text" class="form-control" id="name" name="name" placeholder="Enter name" required>
             </div>
             <div class="mb-3">
                 <label for="company" class="form-label">Company</label>
-                <input type="text" class="form-control" id="company" name="company" required>
+                <input type="text" class="form-control" id="company" name="company" placeholder="Enter company" required>
             </div>
             <div class="mb-3">
                 <label for="phone" class="form-label">Phone</label>
-                <input type="tel" class="form-control" id="phone" name="phone" required>
+                <input type="tel" class="form-control" id="phone" name="phone" placeholder="Enter phone" required>
             </div>
             <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" name="email" required>
+                <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" required>
             </div>
             <button type="submit" name="submit" class="btn btn-primary">Add Contact</button>
         </form>
